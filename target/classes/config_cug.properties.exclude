@@ -1,0 +1,34 @@
+#For Local testing
+db.quote_data.driver=com.mysql.jdbc.Driver
+db.quote_data.username=platformwrite
+db.quote_data.password=bfslwrite
+db.quote_data.dburl=jdbc:mysql://db.bfsl.in:3306/QUOTE_DATA?autoReconnect=true&characterEncoding=latin1
+
+##For Local testing
+db.session_data.driver=com.mysql.jdbc.Driver
+db.session_data.username=platformwrite
+db.session_data.password=bfslwrite
+db.session_data.dburl=jdbc:mysql://db.bfsl.in:3306/SESSION_DATA?autoReconnect=true&characterEncoding=latin1
+
+#Jmx Monitoring
+vas.jmx.url=com.msf.bfsl.vas.monitoring.dev:
+vas.jmx.beans.API_GATEWAY_DB=${vas.jmx.url}type=API_GATEWAY_DB
+vas.jmx.beans.SESSION_DB=${vas.jmx.url}type=SESSION_DB
+
+webservice.encrypt=true
+webservice.encrypt.key = bajajsecmsil2020
+expiry.date.format='%d-%m-%Y'
+
+cors.headers.enable=false
+
+api.read.timeout=15000
+api.connection.timeout=15000
+
+
+internal.api_gateway.baseUrl=http://api-service.bfsl.in/api-gw/v1/getaccess-token?
+internal.bo.validate_token=http://api-service.bfsl.in/api/bo/BO/WelcomeLetter/1.0.0
+
+vas.vendor.vested.baseurl=https://vested-api-prod-partners-ga.vested.co.in/get-partner-token
+vas.vendor.vested.partnerId=26440c88-3356-4fd7-9633-02032a10dfb7
+vas.vendor.vested.partnerKey=6f487d6e-318f-48d7-a192-25561be45e56
+vas.vendor.vested.redirectPage=https://bajajfinserv.vested.co.in/auth?user_token=%s&partner_token=%s
