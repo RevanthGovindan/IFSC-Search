@@ -19,6 +19,9 @@ public class GetBankDetails extends BaseService {
 	protected void process(BaseRequest request, BaseResponse response) throws Exception {
 
 		String ifscCode = request.getReqParams().get("ifsc");
+		if (ifscCode == null) {
+			throw new InvalidRequestException(InfoMessage.getInfoMSG("info_msg.missing.ifscCode"));
+		}
 		if (IfscHelper.isValidIfsc(ifscCode)) {
 			IfscDAO daoObj = new IfscDAO();
 			HashMap<String, String> bankDetails = daoObj.getBankByIFSC(ifscCode);

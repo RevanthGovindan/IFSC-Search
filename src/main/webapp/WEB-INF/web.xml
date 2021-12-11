@@ -16,7 +16,25 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetBankByIFSC</servlet-name>
-		<url-pattern>/ifsc/get-bank</url-pattern>
+		<url-pattern>/get-bank</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetAllBanks</servlet-name>
+		<servlet-class>com.msf.ifsc.services.GetAllBanks</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetAllBanks</servlet-name>
+		<url-pattern>/get-all-banks</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SearchBank</servlet-name>
+		<servlet-class>com.msf.ifsc.services.SearchBank</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchBank</servlet-name>
+		<url-pattern>/search-bank</url-pattern>
 	</servlet-mapping>
 
 </web-app>

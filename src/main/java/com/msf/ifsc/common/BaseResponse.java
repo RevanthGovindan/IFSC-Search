@@ -1,5 +1,7 @@
 package com.msf.ifsc.common;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
@@ -44,6 +46,10 @@ public class BaseResponse {
 	}
 
 	public void addToData(String key, JSONObject value) {
+		this.dataObj.put(key, value);
+	}
+
+	public void addToData(String key, List<String> value) {
 		this.dataObj.put(key, value);
 	}
 
