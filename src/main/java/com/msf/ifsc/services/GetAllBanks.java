@@ -17,6 +17,7 @@ public class GetAllBanks extends BaseService {
 		IfscDAO daoObj = new IfscDAO();
 		List<String> allBanks = daoObj.getAllBanks();
 		response.addToData("bankNames", allBanks);
+		response.setSuccess();
 	}
 
 }

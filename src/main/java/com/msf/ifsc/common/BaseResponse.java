@@ -49,7 +49,7 @@ public class BaseResponse {
 		this.dataObj.put(key, value);
 	}
 
-	public void addToData(String key, List<String> value) {
+	public <T> void addToData(String key, List<T> value) {
 		this.dataObj.put(key, value);
 	}
 

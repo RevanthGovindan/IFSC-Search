@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
+
+import com.msf.ifsc.common.exceptions.InvalidRequestException;
 import com.msf.ifsc.common.exceptions.NotFoundException;
 import com.msf.ifsc.utils.DBConstants;
 import com.msf.ifsc.utils.IfscDbPool;
@@ -89,6 +92,55 @@ public class IfscDAO {
 			Helper.closeConnection(conn);
 		}
 		return allBanks;
+	}
+
+	public List<JSONObject> searchBankBranch(String bankName, String branch) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<JSONObject> bankBranches = new ArrayList<JSONObject>();
+		try {
+			conn = IfscDbPool.getInstance().getConnection();
+			ps = conn.prepareStatement(DBConstants.SEARCH_BRANCH);
+			ps.setString(1, bankName);
+			ps.setString(2, String.format("%%%s%%", branch));
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				JSONObject obj = new JSONObject();
+				obj.put("branch", rs.getString("BRANCH"));
+				obj.put("city", rs.getString("CITY2"));
+				obj.put("state", rs.getString("STATE"));
+				bankBranches.add(obj);
+			}
+		} finally {
+			Helper.closeResultSet(rs);
+			Helper.closeStatement(ps);
+			Helper.closeConnection(conn);
+		}
+		return bankBranches;
+	}
+
+	public String getIfscCode(String bankName, String branch) throws SQLException, InvalidRequestException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = IfscDbPool.getInstance().getConnection();
+			ps = conn.prepareStatement(DBConstants.GET_IFSC);
+			ps.setString(1, bankName);
+			ps.setString(2, branch);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getString("IFSC");
+			} else {
+				throw new InvalidRequestException(InfoMessage.getInfoMSG("info_msg.invalid.bankandbranch"));
+			}
+		} finally {
+			Helper.closeResultSet(rs);
+			Helper.closeStatement(ps);
+			Helper.closeConnection(conn);
+		}
 	}
 
 }

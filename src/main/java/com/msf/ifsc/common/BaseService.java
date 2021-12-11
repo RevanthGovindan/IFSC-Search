@@ -67,7 +67,7 @@ public abstract class BaseService extends HttpServlet {
 			baseResponse.setStatusCode(400);
 			sendResponse(baseResponse, request, response);
 		} catch (Exception e) {
-			log.error(e);
+			log.error(e.getStackTrace());
 			baseResponse.setFailure(e.getMessage());
 			sendResponse(baseResponse, request, response);
 		}

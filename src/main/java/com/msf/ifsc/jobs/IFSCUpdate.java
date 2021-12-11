@@ -20,7 +20,6 @@ public class IFSCUpdate {
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		try {
 			TestConfiguration.loadConfiguration();
-			IfscHelper.readIfsc();
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
@@ -44,7 +43,6 @@ public class IFSCUpdate {
 			if (ifscList.size() > 0) {
 				IfscHelper.backUpIfsc();
 				IfscHelper.insertIFSCList(ifscList);
-				IfscHelper.readIfsc();
 			}
 		} catch (UnsupportedEncodingException | SQLException e) {
 			e.printStackTrace();
