@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.json.me.JSONException;
 
+import com.msf.ifsc.common.exceptions.InvalidRequestException;
+import com.msf.ifsc.common.exceptions.NotFoundException;
 import com.msf.log.Logger;
 import com.msf.sbu2.service.common.SBU2Request;
 import com.msf.sbu2.service.config.AppConfig;
@@ -49,17 +51,25 @@ public abstract class BaseService extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
-		BaseRequest callRequest = new BaseRequest(request);
-		BaseResponse callResponse = new BaseResponse(response);
+		BaseRequest baseRequest = new BaseRequest(request);
+		BaseResponse baseResponse = new BaseResponse(response);
 
-		logRequest(callRequest, callRequest.getRequestBody());
+		logRequest(baseRequest, baseRequest.getRequestBody());
 		try {
-			process(callRequest, callResponse);
-			sendResponse(callResponse, request, response);
+			process(baseRequest, baseResponse);
+			sendResponse(baseResponse, request, response);
+		} catch (NotFoundException e) {
+			baseResponse.setFailure(e.getMessage());
+			baseResponse.setStatusCode(404);
+			sendResponse(baseResponse, request, response);
+		} catch (InvalidRequestException e) {
+			baseResponse.setFailure(e.getMessage());
+			baseResponse.setStatusCode(400);
+			sendResponse(baseResponse, request, response);
 		} catch (Exception e) {
 			log.error(e);
-			callResponse.setFailure(e.getMessage());
-			sendResponse(callResponse, request, response);
+			baseResponse.setFailure(e.getMessage());
+			sendResponse(baseResponse, request, response);
 		}
 	}
 
@@ -68,7 +78,7 @@ public abstract class BaseService extends HttpServlet {
 		try {
 
 			res.setContentType("application/json; charset=UTF-8");
-
+			res.setStatus(sResponse.getStatusCode());
 			res.getWriter().print(sResponse.getStringResponse());
 			log.info(request.getServletPath() + "-- thread id -- " + Thread.currentThread().getId()
 					+ " -- response sent -- " + sResponse.getStringResponse());

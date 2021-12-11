@@ -6,7 +6,10 @@ import com.msf.ifsc.DAO.IfscDAO;
 import com.msf.ifsc.common.BaseRequest;
 import com.msf.ifsc.common.BaseResponse;
 import com.msf.ifsc.common.BaseService;
+import com.msf.ifsc.common.exceptions.InvalidRequestException;
+import com.msf.ifsc.jobs.IfscHelper;
 import com.msf.log.Logger;
+import com.msf.sbu2.service.config.InfoMessage;
 
 public class GetBankDetails extends BaseService {
 
@@ -14,14 +17,19 @@ public class GetBankDetails extends BaseService {
 
 	@Override
 	protected void process(BaseRequest request, BaseResponse response) throws Exception {
+
 		String ifscCode = request.getReqParams().get("ifsc");
-		IfscDAO daoObj = new IfscDAO();
-		HashMap<String, String> bankDetails = daoObj.getBankByIFSC(ifscCode);
-		response.addToData("bankName", bankDetails.get("bankName"));
-		response.addToData("branch", bankDetails.get("branch"));
-		response.addToData("address", bankDetails.get("address"));
-		response.addToData("city", bankDetails.get("city"));
-		response.addToData("state", bankDetails.get("state"));
-		response.setSuccess();
+		if (IfscHelper.isValidIfsc(ifscCode)) {
+			IfscDAO daoObj = new IfscDAO();
+			HashMap<String, String> bankDetails = daoObj.getBankByIFSC(ifscCode);
+			response.addToData("bankName", bankDetails.get("bankName"));
+			response.addToData("branch", bankDetails.get("branch"));
+			response.addToData("address", bankDetails.get("address"));
+			response.addToData("city", bankDetails.get("city"));
+			response.addToData("state", bankDetails.get("state"));
+			response.setSuccess();
+		} else {
+			throw new InvalidRequestException(InfoMessage.getInfoMSG("info_msg.invalid.ifscCode"));
+		}
 	}
 }

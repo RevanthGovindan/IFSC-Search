@@ -151,4 +151,10 @@ public class IfscHelper {
 		}
 	}
 
+	public static boolean isValidIfsc(String ifscCode) {
+		if (ifscCode.length() == 11)
+			return true;
+		return false;
+	}
+
 }

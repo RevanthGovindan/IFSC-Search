@@ -13,6 +13,7 @@ public class BaseResponse {
 	transient protected HttpServletResponse httpResponse;
 	protected JSONObject response;
 	protected JSONObject dataObj;
+	protected int statusCode = 200;
 
 	public BaseResponse(HttpServletResponse httpResponse) {
 		this.httpResponse = httpResponse;
@@ -52,15 +53,22 @@ public class BaseResponse {
 	}
 
 	public String getStringResponse() {
-		log.debug("get string method");
-		this.response.put("data", this.dataObj);
-		log.debug(this.dataObj);
-		log.debug(this.response);
+		if (!this.response.optString("status").equals("FAILED")) {
+			this.response.put("data", this.dataObj);
+		}
 		return this.response.toString();
 	}
 
 	public HttpServletResponse getHttpResponse() {
 		return httpResponse;
+	}
+
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
 	}
 
 }
