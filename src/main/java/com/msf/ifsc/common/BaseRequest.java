@@ -21,7 +21,7 @@ public class BaseRequest {
 
 	private String requestBody = "";
 
-	private Map<String, String[]> reqParams = new HashMap<>();
+	private Map<String, String> reqParams = new HashMap<>();
 
 	public BaseRequest(HttpServletRequest httpRequest) {
 		this.setRequest(httpRequest);
@@ -65,12 +65,14 @@ public class BaseRequest {
 		this.request = request;
 	}
 
-	public Map<String, String[]> getReqParams() {
+	public Map<String, String> getReqParams() {
 		return reqParams;
 	}
 
 	public void setReqParams(Map<String, String[]> reqParams) {
-		this.reqParams = reqParams;
+		for (Map.Entry<String, String[]> entry : reqParams.entrySet()) {
+			this.reqParams.put(entry.getKey(), entry.getValue()[0]);
+		}
 	}
 
 	public String getRequestBody() {

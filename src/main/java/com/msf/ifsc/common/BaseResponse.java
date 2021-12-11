@@ -4,30 +4,63 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-public class BaseResponse extends JSONObject {
+import com.msf.log.Logger;
 
-	transient protected HttpServletResponse response;
+public class BaseResponse {
 
-	public BaseResponse(HttpServletResponse response) {
-		this.response = response;
+	public static Logger log = Logger.getLogger(BaseResponse.class);
+
+	transient protected HttpServletResponse httpResponse;
+	protected JSONObject response;
+	protected JSONObject dataObj;
+
+	public BaseResponse(HttpServletResponse httpResponse) {
+		this.httpResponse = httpResponse;
+		this.dataObj = new JSONObject();
+		this.response = new JSONObject();
 	}
 
 	public void setStatus(String status, String msg) {
-		this.put("status", status);
-		this.put("msg", msg);
+		this.response.put("status", status);
+		this.response.put("msg", msg);
 	}
 
 	public void setFailure(String msg) {
-		this.put("status", "FAILED");
-		this.put("msg", msg);
+		this.response.put("status", "FAILED");
+		this.response.put("msg", msg);
 	}
 
 	public void setSuccess() {
-		this.put("status", "SUCCESS");
+		this.response.put("status", "SUCCESS");
+	}
+
+	public void addToData(String key, String value) {
+		this.dataObj.put(key, value);
+	}
+
+	public void addToData(String key, int value) {
+		this.dataObj.put(key, value);
+	}
+
+	public void addToData(String key, JSONObject value) {
+		this.dataObj.put(key, value);
+	}
+
+	public JSONObject getCompleteResponse() {
+		this.response.put("data", this.dataObj);
+		return this.response;
+	}
+
+	public String getStringResponse() {
+		log.debug("get string method");
+		this.response.put("data", this.dataObj);
+		log.debug(this.dataObj);
+		log.debug(this.response);
+		return this.response.toString();
 	}
 
 	public HttpServletResponse getHttpResponse() {
-		return response;
+		return httpResponse;
 	}
 
 }

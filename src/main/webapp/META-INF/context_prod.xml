@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true" useHttpOnly="false">
+
+	<Resource name="jdbc/payments" auth="Container"
+		type="javax.sql.DataSource"
+		url="jdbc:mysql://db.kgi.sg:3306/shield_admin_console?autoReconnect=true"
+		driverClassName="com.mysql.jdbc.Driver" username="platformwrite"
+		password="kgiwrite" initialSize="10" maxIdle="15" maxTotal="30"
+		maxWaitMillis="10000" />
+	
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
+

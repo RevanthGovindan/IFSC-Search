@@ -15,7 +15,7 @@ public class IfscDbPool {
 
 	private static Logger log = Logger.getLogger(IfscDbPool.class);
 	public static String MONITOR_BO_DB = "";
-
+	public static String DATASOURCE_CONTEXT_URL = "java:comp/env/jdbc/ifscpool";
 	private static IfscDbPool instance = null;
 	private static InitialContext context;
 	private static BasicDataSource datasource;
@@ -24,7 +24,7 @@ public class IfscDbPool {
 
 		try {
 			context = new InitialContext();
-			datasource = (BasicDataSource) context.lookup("java:comp/env/jdbc/quotedata");
+			datasource = (BasicDataSource) context.lookup(DATASOURCE_CONTEXT_URL);
 		}
 
 		catch (NamingException e) {
@@ -54,6 +54,9 @@ public class IfscDbPool {
 		datasource.setUrl(dbUrl);
 		datasource.setUsername(userName);
 		datasource.setPassword(password);
+		datasource.setMinEvictableIdleTimeMillis(30000);
+		datasource.setTimeBetweenEvictionRunsMillis(30000);
+		datasource.setMaxOpenPreparedStatements(400);
 
 	}
 

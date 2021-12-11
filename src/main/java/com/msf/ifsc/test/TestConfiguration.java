@@ -6,9 +6,11 @@ import java.util.Properties;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+import com.msf.ifsc.utils.IfscDbPool;
 import com.msf.log.Logger;
 import com.msf.sbu2.service.config.AppConfig;
 import com.msf.sbu2.service.config.InfoMessage;
+import com.msf.sbu2.service.exception.AppConfigNoKeyFoundException;
 
 public class TestConfiguration {
 
@@ -50,6 +52,13 @@ public class TestConfiguration {
 			InfoMessage.loadFile(infoMessageFile);
 
 		} catch (ConfigurationException e) {
+			log.error("Cannot load info message properties");
+			log.error("", e);
+		}
+
+		try {
+			IfscDbPool.initDataSource();
+		} catch (AppConfigNoKeyFoundException e) {
 			log.error("Cannot load info message properties");
 			log.error("", e);
 		}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true" useHttpOnly="false">
+
+	<Resource name="jdbc/shield_admin_console" auth="Container"
+		type="javax.sql.DataSource"
+		url="jdbc:mysql://10.83.17.30:3306/shield_admin_console?autoReconnect=true"
+		driverClassName="com.mysql.jdbc.Driver" username="platformwrite"
+		password="kgiwrite" initialSize="5" maxIdle="5" maxTotal="5"
+		maxWaitMillis="10000" />
+
+
+	<Resource name="jdbc/shield_push_console" auth="Container"
+		type="javax.sql.DataSource"
+		url="jdbc:mysql://10.83.17.30:3306/shield_push_console?autoReconnect=true"
+		driverClassName="com.mysql.jdbc.Driver" username="platformwrite"
+		password="kgiwrite" initialSize="5" maxIdle="5" maxTotal="5"
+		maxWaitMillis="10000" />
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
+
